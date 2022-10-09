@@ -4,9 +4,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "copy:readme": "copyfiles ./README.md ./projects/ng-simple-alert",
+    "build": "npm run build:lib && npm run build:demo",
+    "build:lib": "npm run copy:readme && ng build ng-simple-alert",
+    "build:demo": "ng build ng-simple-alert-showcase --base-href='https://Hassan-Gaad.github.io/ng-simple-alert/'",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:lib-coverage": "ng test ng-simple-alert --code-coverage --watch=false",
+    "report-coverage:lib": "cat ./coverage/ng-simple-alert/lcov.info | codecov",
+    "publish:demo": "npx angular-cli-ghpages --dir=./dist/ng-simple-alert-showcase",
+    "format:check": "prettier --list-different \"projects/**/*.ts\"",
+    "format:write": "prettier --write \"projects/**/*.ts\""
   },
   "private": true,
   "dependencies": {
@@ -23,15 +31,42 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^14.0.7",
     "@angular/cli": "~14.0.2",
     "@angular/compiler-cli": "^14.0.0",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@commitlint/prompt": "^17.1.2",
     "@types/jasmine": "~4.0.0",
+    "codecov": "^3.8.3",
+    "copyfiles": "^2.4.1",
+    "husky": "^8.0.1",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "lint-staged": "^13.0.3",
+    "ng-packagr": "^14.0.0",
+    "prettier": "^2.7.1",
     "typescript": "~4.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "projects/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
