@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  steps:
+  -checkout
+  - requires: lint
+    run:
+    name: lint
+    command: ng lint
+  - requires: test
+    run:
+    name: test
+    command: |
+     npm run test:lib-coverage
+     npm run report-coverage:lib
+  - requires: build & publish showcase
+    run:
+    name: build showcase
+    command: npm run build:demo
+    build:
+    run:
+    name: deploy
+      provider: pages
+      skip_cleanup: true
+      github_token: $GH_TOKEN
+      local_dir: dist/ng-simple-alert-showcase
+    if: branch = master
+  - requires: build & publish lib
+    run:
+    command: npm run build:lib
+    command: npm run publish:lib
+    if: branch = master
+  - run:
+          name: release
+          command: npm run semantic-release || true

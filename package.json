@@ -1,6 +1,6 @@
 {
   "name": "ng-simple-alert",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,7 +14,11 @@
     "report-coverage:lib": "cat ./coverage/ng-simple-alert/lcov.info | codecov",
     "publish:demo": "npx angular-cli-ghpages --dir=./dist/ng-simple-alert-showcase",
     "format:check": "prettier --list-different \"projects/**/*.ts\"",
-    "format:write": "prettier --write \"projects/**/*.ts\""
+    "format:write": "prettier --write \"projects/**/*.ts\"",
+    "semantic-release": "semantic-release",
+    "adjust-version": "npm-run-all adjust-version:*",
+    "adjust-version:lib": "rjp projects/ng-simple-alert/package.json version $VERSION",
+    "adjust-version:main": "rjp package.json version $VERSION"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +41,7 @@
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@commitlint/prompt": "^17.1.2",
+    "@semantic-release/exec": "^6.0.3",
     "@types/jasmine": "~4.0.0",
     "codecov": "^3.8.3",
     "copyfiles": "^2.4.1",
@@ -49,7 +54,10 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "lint-staged": "^13.0.3",
     "ng-packagr": "^14.0.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
+    "replace-json-property": "^1.8.0",
+    "semantic-release": "^19.0.5",
     "typescript": "~4.7.2"
   },
   "husky": {
@@ -68,5 +76,12 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hassan-Gaad/ng-simple-alert.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
   }
 }
