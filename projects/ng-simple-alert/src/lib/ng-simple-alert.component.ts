@@ -10,10 +10,10 @@ import { NgSimpleAlertService, SimpleAlertMessage } from './ng-simple-alert.serv
       <strong>{{ alertMessage.prefix }}!</strong> {{ alertMessage.message }}
     </div>
   `,
-  styleUrls: ['./ng-simple-alert.component.css']
+  styleUrls: ['./ng-simple-alert.component.css'],
 })
 export class NgSimpleAlertComponent implements OnInit {
-  alertMessage$: Observable<SimpleAlertMessage | boolean>;
+  alertMessage$!: Observable<SimpleAlertMessage | boolean>;
   close$ = new Subject<boolean>();
 
   constructor(private alertService: NgSimpleAlertService) {}
@@ -23,6 +23,6 @@ export class NgSimpleAlertComponent implements OnInit {
   }
 
   closeAlert(): void {
-    this.close$.next();
+    this.close$.next(false);
   }
 }

@@ -4,17 +4,25 @@
   "newProjectRoot": "projects",
   "projects": {
     "ng-simple-alert": {
+      "projectType": "library",
       "root": "projects/ng-simple-alert",
       "sourceRoot": "projects/ng-simple-alert/src",
-      "projectType": "library",
-      "prefix": "ng-simple-alert",
+      "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ng-simple-alert/tsconfig.lib.json",
             "project": "projects/ng-simple-alert/ng-package.json"
-          }
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-simple-alert/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ng-simple-alert/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -23,27 +31,15 @@
             "tsConfig": "projects/ng-simple-alert/tsconfig.spec.json",
             "karmaConfig": "projects/ng-simple-alert/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ng-simple-alert/tsconfig.lib.json",
-              "projects/ng-simple-alert/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
     "ng-simple-alert-showcase": {
-      "root": "projects/ng-simple-alert-showcase/",
-      "sourceRoot": "projects/ng-simple-alert-showcase/src",
       "projectType": "application",
-      "prefix": "app",
       "schematics": {},
+      "root": "projects/ng-simple-alert-showcase",
+      "sourceRoot": "projects/ng-simple-alert-showcase/src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -60,46 +56,52 @@
             "styles": [
               "projects/ng-simple-alert-showcase/src/styles.css"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/ng-simple-alert-showcase/src/environments/environment.ts",
                   "with": "projects/ng-simple-alert-showcase/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "ng-simple-alert-showcase:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "ng-simple-alert-showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "ng-simple-alert-showcase:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -114,30 +116,20 @@
             "polyfills": "projects/ng-simple-alert-showcase/src/polyfills.ts",
             "tsConfig": "projects/ng-simple-alert-showcase/tsconfig.spec.json",
             "karmaConfig": "projects/ng-simple-alert-showcase/karma.conf.js",
-            "styles": [
-              "projects/ng-simple-alert-showcase/src/styles.css"
-            ],
-            "scripts": [],
             "assets": [
               "projects/ng-simple-alert-showcase/src/favicon.ico",
               "projects/ng-simple-alert-showcase/src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ng-simple-alert-showcase/tsconfig.app.json",
-              "projects/ng-simple-alert-showcase/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "styles": [
+              "projects/ng-simple-alert-showcase/src/styles.css"
+            ],
+            "scripts": []
           }
         }
       }
     }
   },
-  "defaultProject": "ng-simple-alert"
+  "cli": {
+    "analytics": false
+  }
 }

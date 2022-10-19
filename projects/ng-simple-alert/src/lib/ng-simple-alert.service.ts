@@ -8,7 +8,7 @@ export interface SimpleAlertMessage {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NgSimpleAlertService {
   public alertMessage$ = new Subject<SimpleAlertMessage>();

@@ -8,6 +8,6 @@ import { NgSimpleAlertModule } from '../../../ng-simple-alert/src/lib/ng-simple-
   declarations: [AppComponent],
   imports: [BrowserModule, NgSimpleAlertModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

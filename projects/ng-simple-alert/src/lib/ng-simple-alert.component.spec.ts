@@ -7,7 +7,7 @@ describe('NgAlertComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NgSimpleAlertComponent]
+      declarations: [NgSimpleAlertComponent],
     }).compileComponents();
   }));
 
